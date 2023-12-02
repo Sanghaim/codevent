@@ -13,7 +13,7 @@ const numerals = {
 
 function run() {
     const coords = []
-    lineReader.eachLine('inputs/day01.txt', function(line, last) {
+    lineReader.eachLine('./inputs/day01.txt', function(line, last) {
         let data = line
         for (const word of Object.keys(numerals)) {
             data = data.replace(word, numerals[word])
