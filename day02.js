@@ -62,6 +62,18 @@ const validateGame = (game) => {
   }
 };
 
+const getMinimumDicesPower = (game) => {
+  const reds = [];
+  const greens = [];
+  const blues = [];
+  for (const set of game.sets) {
+    reds.push(set.red);
+    greens.push(set.green);
+    blues.push(set.blue);
+  }
+  return Math.max(...reds) * Math.max(...greens) * Math.max(...blues);
+};
+
 readFile().then((res) => {
   for (const [index, line] of res.entries()) {
     prepareData(index, line);
@@ -71,14 +83,13 @@ readFile().then((res) => {
     validateGame(game);
   }
 
-  const validatedGames = data.filter((game) => {
-    return game.valid == true;
-  }).reduce((sum, game) => sum + game.game, 0);
   console.log(
-    util.inspect(validatedGames, {
-      showHidden: false,
-      depth: null,
-      colors: true,
-    })
+    data
+      .filter((game) => {
+        return game.valid == true;
+      })
+      .reduce((sum, game) => sum + game.game, 0)
   );
+
+  console.log(data.reduce((sum, game) => sum + getMinimumDicesPower(game), 0));
 });
