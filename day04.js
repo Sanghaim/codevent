@@ -27,25 +27,40 @@ const getNumbers = (numbers) => {
 };
 
 const getCardValue = (cardData) => {
-  let winningNumbers = -1;
-  cardData[0]
+  let winningNumbers = 0;
+  cardData.winningNumbers
     .filter((x) => x !== 0)
     .forEach((winningNumber) => {
-      cardData[1].forEach((number) => {
+      cardData.numbers.forEach((number) => {
         if (winningNumber === number) {
           winningNumbers += 1;
         }
       });
     });
-  return winningNumbers === -1 ? 0 : 2 ** winningNumbers;
+  return winningNumbers;
+};
+
+const generateCards = (cardNumber, cardData) => {
+  const cardsToGenerate = getCardValue(cardData);
+  for (let index = 0; index < cardsToGenerate; index++) {
+    console.log(cardNumber, cardsToGenerate);
+    data[cardNumber + 1 + index].count += 1 * cardData.count;
+  }
 };
 
 const prepareCard = (card) => {
-  const cardData = card.split("|").map((cardPart) => getNumbers(cardPart));
-  return getCardValue(cardData);
+  const preparedCard = card.split("|").map((cardPart) => getNumbers(cardPart));
+  return {
+    winningNumbers: preparedCard[0],
+    numbers: preparedCard[1],
+    count: 1,
+  };
 };
 
 readFile().then((res) => {
-  data = res;
-  console.log(data.reduce((sum, acc) => sum + prepareCard(acc), 0));
+  data = res.map(prepareCard);
+  data.forEach((cardData, cardNumber) => {
+    generateCards(cardNumber, cardData);
+  });
+  console.log(data.reduce((sum, acc) => sum + acc.count, 0));
 });
