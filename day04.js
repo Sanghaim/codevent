@@ -43,7 +43,6 @@ const getCardValue = (cardData) => {
 const generateCards = (cardNumber, cardData) => {
   const cardsToGenerate = getCardValue(cardData);
   for (let index = 0; index < cardsToGenerate; index++) {
-    console.log(cardNumber, cardsToGenerate);
     data[cardNumber + 1 + index].count += 1 * cardData.count;
   }
 };
